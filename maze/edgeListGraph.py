@@ -21,19 +21,26 @@ class EdgeListGraph(Graph):
 
     def __init__(self):
         ### Implement me! ###
-        pass
+        self.verticesList = {} 
+    
 
 
         
     def addVertex(self, label:Coordinates):
         ### Implement me! ###
-        pass
+        self.verticesList[len(self) + 1] = Coordinates
+        
 
 
 
     def addVertices(self, vertLabels:List[Coordinates]):
+        
+        for vertex in vertLabels :
+            self.addVertex(vertex)
+        return (len(self.verticesList))
         ### Implement me! ###
-        pass
+        # for i in range (len(vertLabels)):
+        #     self.addVertex(i) 
 
 
 
@@ -41,6 +48,7 @@ class EdgeListGraph(Graph):
         ### Implement me! ###
         # remember to return booleans
         pass
+        
         
 
 
