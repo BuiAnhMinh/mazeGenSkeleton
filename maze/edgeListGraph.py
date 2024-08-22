@@ -66,6 +66,7 @@ class EdgeListGraph(Graph):
         # remember to return booleans
         
 <<<<<<< HEAD
+        
 =======
         if not self.hasEdge(vert1, vert2):
             self.edge_list[(vert1, vert2)] = addWall
@@ -78,7 +79,6 @@ class EdgeListGraph(Graph):
    
      
 >>>>>>> 7aafc89fc68daea6c4a4f6e12c2283212de67cf5
-        
 
 
     def updateWall(self, vert1:Coordinates, vert2:Coordinates, wallStatus:bool)->bool:
