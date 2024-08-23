@@ -21,53 +21,27 @@ class EdgeListGraph(Graph):
 
     def __init__(self):
         ### Implement me! ###
-<<<<<<< HEAD
-        self.verticesList = {} 
-    
-
-=======
         self.vertices_dict:dict[list]={}
         self.edge_list:dict[tuple:bool]={}
->>>>>>> 7aafc89fc68daea6c4a4f6e12c2283212de67cf5
 
         
     def addVertex(self, label:Coordinates):
         ### Implement me! ###
-<<<<<<< HEAD
-        self.verticesList[len(self) + 1] = Coordinates
-        
-
-
-=======
         self.vertices_dict[label]=[]
         
    
->>>>>>> 7aafc89fc68daea6c4a4f6e12c2283212de67cf5
 
     def addVertices(self, vertLabels:List[Coordinates]):
-        
-        for vertex in vertLabels :
-            self.addVertex(vertex)
-        return (len(self.verticesList))
         ### Implement me! ###
-<<<<<<< HEAD
-        # for i in range (len(vertLabels)):
-        #     self.addVertex(i) 
-
-=======
         for vertex in vertLabels:
             self.addVertex(vertex)
    
->>>>>>> 7aafc89fc68daea6c4a4f6e12c2283212de67cf5
 
 
     def addEdge(self, vert1:Coordinates, vert2:Coordinates, addWall:bool = False)->bool:
         ### Implement me! ###
         # remember to return booleans
         
-<<<<<<< HEAD
-        
-=======
         if not self.hasEdge(vert1, vert2):
             self.edge_list[(vert1, vert2)] = addWall
             self.edge_list[(vert2, vert1)] = addWall
@@ -78,7 +52,6 @@ class EdgeListGraph(Graph):
             return False
    
      
->>>>>>> 7aafc89fc68daea6c4a4f6e12c2283212de67cf5
 
 
     def updateWall(self, vert1:Coordinates, vert2:Coordinates, wallStatus:bool)->bool:
