@@ -5,13 +5,13 @@ from maze.graph import Graph
 
 class IncMatGraph(Graph):
     """
-    Represents an undirected graph using an incidence matrix.
+    Incidence matrix implementation of an undirected graph, where each edge may or may not have a wall.
     """
 
     def __init__(self):
-        # Initialize vertices and incidence matrix
+        super().__init__()
         self.vertices: List[Coordinates] = []
-        self.edges: List[tuple] = []
+        self.edges: List[tuple[Coordinates, Coordinates, bool]] = []
         self.incidence_matrix: List[List[int]] = []
 
     def addVertex(self, label: Coordinates):
@@ -22,16 +22,15 @@ class IncMatGraph(Graph):
                 row.append(0)
 
     def addVertices(self, vertLabels: List[Coordinates]):
-        for vertex in vertLabels:
-            self.addVertex(vertex)
+        for label in vertLabels:
+            self.addVertex(label)
 
     def addEdge(self, vert1: Coordinates, vert2: Coordinates, addWall: bool = False) -> bool:
-        if not self.hasEdge(vert1, vert2):
-            if vert1 in self.vertices and vert2 in self.vertices:
-                # Add new edge with wall status
-                edge = (vert1, vert2, addWall)
-                self.edges.append(edge)
-                # Add a new row for this edge in the incidence matrix
+        if self.hasVertex(vert1) and self.hasVertex(vert2):
+            if not self.hasEdge(vert1, vert2):
+                # Add the edge
+                self.edges.append((vert1, vert2, addWall))
+                # Add a row to the incidence matrix for this edge
                 row = [0] * len(self.vertices)
                 row[self.vertices.index(vert1)] = 1
                 row[self.vertices.index(vert2)] = 1
@@ -39,50 +38,45 @@ class IncMatGraph(Graph):
                 return True
         return False
 
-    def updateWall(self, vert1: Coordinates, vert2: Coordinates, wallStatus: bool) -> bool:
-        # Find the index of the edge in the edges list
-        edge_index = self._find_edge_index(vert1, vert2)
-        if edge_index is not None:
-            # Update the wall status in the corresponding edge tuple
-            vert1, vert2, _ = self.edges[edge_index]
-            self.edges[edge_index] = (vert1, vert2, wallStatus)
-            return True
-        return False
-
     def removeEdge(self, vert1: Coordinates, vert2: Coordinates) -> bool:
-        edge_index = self._find_edge_index(vert1, vert2)
-        if edge_index is not None:
-            # Remove the edge from the list and the corresponding row from the matrix
-            self.edges.pop(edge_index)
-            self.incidence_matrix.pop(edge_index)
-            return True
+        for i, (v1, v2, _) in enumerate(self.edges):
+            if (v1 == vert1 and v2 == vert2) or (v1 == vert2 and v2 == vert1):
+                # Remove edge and corresponding row from incidence matrix
+                self.edges.pop(i)
+                self.incidence_matrix.pop(i)
+                return True
         return False
 
     def hasVertex(self, label: Coordinates) -> bool:
         return label in self.vertices
 
     def hasEdge(self, vert1: Coordinates, vert2: Coordinates) -> bool:
-        return self._find_edge_index(vert1, vert2) is not None
+        for v1, v2, _ in self.edges:
+            if (v1 == vert1 and v2 == vert2) or (v1 == vert2 and v2 == vert1):
+                return True
+        return False
+
+    def updateWall(self, vert1: Coordinates, vert2: Coordinates, wallStatus: bool) -> bool:
+        for i, (v1, v2, _) in enumerate(self.edges):
+            if (v1 == vert1 and v2 == vert2) or (v1 == vert2 and v2 == vert1):
+                # Update the wall status for the edge
+                self.edges[i] = (v1, v2, wallStatus)
+                return True
+        return False
 
     def getWallStatus(self, vert1: Coordinates, vert2: Coordinates) -> Optional[bool]:
-        edge_index = self._find_edge_index(vert1, vert2)
-        if edge_index is not None:
-            return self.edges[edge_index][2]
+        for v1, v2, wallStatus in self.edges:
+            if (v1 == vert1 and v2 == vert2) or (v1 == vert2 and v2 == vert1):
+                return wallStatus
         return None
 
     def neighbours(self, label: Coordinates) -> List[Coordinates]:
         neighbours = []
-        if label in self.vertices:
-            index = self.vertices.index(label)
+        if self.hasVertex(label):
+            vertex_index = self.vertices.index(label)
             for i, row in enumerate(self.incidence_matrix):
-                if row[index] == 1:
+                if row[vertex_index] == 1:
                     edge = self.edges[i]
                     neighbour = edge[0] if edge[1] == label else edge[1]
                     neighbours.append(neighbour)
         return neighbours
-
-    def _find_edge_index(self, vert1: Coordinates, vert2: Coordinates) -> Optional[int]:
-        for i, edge in enumerate(self.edges):
-            if (edge[0] == vert1 and edge[1] == vert2) or (edge[0] == vert2 and edge[1] == vert1):
-                return i
-        return None
