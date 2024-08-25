@@ -32,6 +32,7 @@ class EdgeListGraph(Graph):
    
 
     def addVertices(self, vertLabels:List[Coordinates]):
+        
         ### Implement me! ###
         for vertex in vertLabels:
             self.addVertex(vertex)
