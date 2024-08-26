@@ -7,6 +7,7 @@
 # ------------------------------------------------------------------------
 
 
+import time
 from typing import List, Dict, Tuple, Optional
 
 from maze.util import Coordinates
@@ -75,11 +76,14 @@ class IncMatGraph(Graph):
         return False
 
     def updateWall(self, vert1: Coordinates, vert2: Coordinates, wallStatus: bool) -> bool:
+        start_time = time.time()
         for i, (v1, v2, _) in enumerate(self.edges):
             if (v1 == vert1 and v2 == vert2) or (v1 == vert2 and v2 == vert1):
                 # Update the wall status for the edge
                 self.edges[i] = (v1, v2, wallStatus)
                 return True
+        end_time = time.time()
+        print(f"updateWall() took {end_time - start_time} seconds")
         return False
 
     def getWallStatus(self, vert1: Coordinates, vert2: Coordinates) -> Optional[bool]:
@@ -89,6 +93,7 @@ class IncMatGraph(Graph):
         return None
 
     def neighbours(self, label: Coordinates) -> List[Coordinates]:
+        start_time = time.time()
         neighbours = []
         if self.hasVertex(label):
             vertex_index = self.vertices[label]
@@ -96,4 +101,8 @@ class IncMatGraph(Graph):
                 edge = self.edges[edge_index]
                 neighbour = edge[0] if edge[1] == label else edge[1]
                 neighbours.append(neighbour)
+                
+        end_time = time.time()
+        print(f"neighbours() took {end_time - start_time} seconds")
+        
         return neighbours
