@@ -1,4 +1,14 @@
+# ------------------------------------------------------------------------
+# Please COMPLETE the IMPLEMENTATION of this class.
+# Adjacent matrix implementation.
+#
+# __author__ = 'Jeffrey Chan', <YOU>
+# __copyright__ = 'Copyright 2024, RMIT University'
+# ------------------------------------------------------------------------
+
+
 from typing import List, Dict, Tuple, Optional
+
 from maze.util import Coordinates
 from maze.graph import Graph
 
