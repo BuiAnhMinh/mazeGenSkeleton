@@ -59,13 +59,10 @@ class EdgeListGraph(Graph):
     def updateWall(self, vert1:Coordinates, vert2:Coordinates, wallStatus:bool)->bool:
         ### Implement me! ###
         # remember to return booleans
-        start_time = time.time()
         if self.hasEdge(vert1, vert2):
             self.edge_list[(vert1, vert2)] = wallStatus
             self.edge_list[(vert2, vert1)] = wallStatus
             return True
-        end_time = time.time()
-        print(f"updateWall() took {end_time - start_time} seconds")
         return False
         
         
@@ -106,9 +103,6 @@ class EdgeListGraph(Graph):
     def neighbours(self, label:Coordinates)->List[Coordinates]:
         ### Implement me! ###
         # remember to return list of coordinates
-        start_time = time.time()
-        end_time = time.time()
-        print(f"neighbours() took {end_time - start_time} seconds")
         return self.vertices_dict[label]
     
         
