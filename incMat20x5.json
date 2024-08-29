@@ -1,0 +1,9 @@
+{
+  "dataStructure": "inc-mat",
+  "rowNum": 20,
+  "colNum": 5,
+  "entrances": [[0, -1], [-1, 1]],
+  "exits": [[18, 5], [20, 4]],
+  "generator": "recur",
+  "visualise": true
+}
