@@ -1,0 +1,10 @@
+{
+    "dataStructure": "array",
+    "rowNum": 25,
+    "colNum": 25,
+    "entrances": [[0, -1], [-1, 1]],
+    "exits": [[23, 25], [25, 24]],
+    "generator": "recur",
+    "visualise": true
+  }
+  
