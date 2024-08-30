@@ -21,88 +21,56 @@ class EdgeListGraph(Graph):
     """
 
     def __init__(self):
-        ### Implement me! ###
-        self.vertices_dict:dict[list]={}
-        self.edge_list:dict[tuple:bool]={}
+        self.vertices_dict:dict[list]={} #dictionary to store edges
+        self.edge_list:dict[tuple:bool]={} #add wall status 
 
-        
     def addVertex(self, label:Coordinates):
-        ### Implement me! ###
-        self.vertices_dict[label]=[]
+        self.vertices_dict[label]=[] #initialize an empty list 
         
-   
-
     def addVertices(self, vertLabels:List[Coordinates]):
-        
-        ### Implement me! ###
-        for vertex in vertLabels:
-            self.addVertex(vertex)
+        for vertex in vertLabels: #loop vertices list 
+            self.addVertex(vertex) #add vertex using addVertex()
    
-
-
     def addEdge(self, vert1:Coordinates, vert2:Coordinates, addWall:bool = False)->bool:
-        ### Implement me! ###
-        # remember to return booleans
-        
-        if not self.hasEdge(vert1, vert2):
-            self.edge_list[(vert1, vert2)] = addWall
-            self.edge_list[(vert2, vert1)] = addWall
-            self.vertices_dict[vert1].append(vert2)
-            self.vertices_dict[vert2].append(vert1)
-            return True
+        if not self.hasEdge(vert1, vert2): #check edge exist 
+            self.edge_list[(vert1, vert2)] = addWall #add edge with wall status 
+            self.edge_list[(vert2, vert1)] = addWall #add reverse edge (undirected graph)
+            self.vertices_dict[vert1].append(vert2) #add vert2
+            self.vertices_dict[vert2].append(vert1) #add vert1 
+            return True #add edge 
         else:
-            return False
-   
-     
-
+            return False #edge already exist 
 
     def updateWall(self, vert1:Coordinates, vert2:Coordinates, wallStatus:bool)->bool:
-        ### Implement me! ###
-        # remember to return booleans
-        if self.hasEdge(vert1, vert2):
-            self.edge_list[(vert1, vert2)] = wallStatus
-            self.edge_list[(vert2, vert1)] = wallStatus
-            return True
-        return False
-        
+        if self.hasEdge(vert1, vert2): #check edge exist
+            self.edge_list[(vert1, vert2)] = wallStatus #update wall status of edge
+            self.edge_list[(vert2, vert1)] = wallStatus #update wall status of reverse edge
+            return True #update wall status success
+        return False # edge not exist 
         
     def removeEdge(self, vert1:Coordinates, vert2:Coordinates)->bool:
-        ### Implement me! ###
-        # remember to return booleans
-        if self.hasEdge(vert1, vert2):
-            self.vertices_dict[vert1].remove(vert2)
-            self.vertices_dict[vert2].remove(vert1)
-            del self.edge_list[(vert1, vert2)]
-            del self.edge_list[(vert2, vert1)]
-            return True
-
+        if self.hasEdge(vert1, vert2): #check edge exist 
+            self.vertices_dict[vert1].remove(vert2) #remove vert2 from adjecency list of vert1
+            self.vertices_dict[vert2].remove(vert1) #remove vert1 from adjecency list of vert2 
+            del self.edge_list[(vert1, vert2)] #delete edge 
+            del self.edge_list[(vert2, vert1)] #delete reverse edge 
+            return True #edge removed 
+        return False #edge not exist
 
     def hasVertex(self, label:Coordinates)->bool:
-        ### Implement me! ###
-        # remember to return booleans
-        if label in self.vertices_dict.keys():
-            return True
-        return False
-
-
-
+        if label in self.vertices_dict.keys(): #check vertex exist 
+            return True #vertex exist
+        return False #vertex not exist 
 
     def hasEdge(self, vert1:Coordinates, vert2:Coordinates)->bool:
-        ### Implement me! ###
-        # remember to return booleans
-        if (vert1, vert2) in self.edge_list.keys():
-                return True
-        return False
+        if (vert1, vert2) in self.edge_list.keys(): #check edge exist 
+                return True #edge exist
+        return False #edge not exist 
 
     def getWallStatus(self, vert1:Coordinates, vert2:Coordinates)->bool:
-        ### Implement me! ###
-        # remember to return booleans
-        return self.edge_list[(vert1, vert2)]
-        
-    
+        return self.edge_list[(vert1, vert2)] #get wall status between vert1 and vert2
+            
     def neighbours(self, label:Coordinates)->List[Coordinates]:
-        ### Implement me! ###
-        # remember to return list of coordinates
-        return self.vertices_dict[label]
+        return self.vertices_dict[label] #return list of adjacency vertices 
     
         
